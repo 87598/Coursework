@@ -11,37 +11,6 @@ public class Main {
     public static void main(String[] args){
         openDatabase("Pizza Delivery System Database.db"); //opens the database
 
-        //this block of code allows you to read the database so that the data can be used
-        try{
-            PreparedStatement ps = db.prepareStatement("SELECT userID, userName, userPassword FROM User");
-
-            ResultSet results = ps.executeQuery();
-            while(results.next()){
-                int userID = results.getInt(1);
-                String userName = results.getString(2);
-                String userPassword = results.getString(3);
-                System.out.println(userID + " "+ userName+" "+ userPassword);
-            }
-        }
-        catch(Exception exception){ //this will catch the errors
-            System.out.println("Database error: "+ exception.getMessage());
-        }
-
-        //this block of code allows you to write to the database
-        try{
-            PreparedStatement ps = db.prepareStatement("INSERT INTO User (userID, userName, userPassword) VALUES (?, ?, ?)");
-
-            ps.setInt(1,5);
-            ps.setString(2, "Bob");
-            ps.setString(3, "DeathisHere");
-
-            ps.executeUpdate();
-        }
-        catch (Exception exception){ //this will catch the errors
-            System.out.println("Database error" + exception.getMessage());
-        }
-
-
 
         closeDatabase(); //closes the database
     }
