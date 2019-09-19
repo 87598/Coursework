@@ -36,6 +36,7 @@ public class Main {
             firstName(done);
             System.out.println(customerFirst);
             done = false;
+
             System.out.println("Please enter your last name: ");
             String customerLast = input.nextLine();
             System.out.println("Please enter your chosen username: ");
