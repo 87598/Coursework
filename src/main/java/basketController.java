@@ -35,25 +35,25 @@ public class basketController {
         }
     }
 
-    public static void updateBasket(String pizzaTotal, String restaurantLocation, String restaurantTime, int restaurantID){
-        //this allows you to update a restaurant from the database
+    public static void updateBasket(int pizzaTotal, int sideTotal, int drinkTotal, int basketID){
+        //this allows you to update a basket for new contents to the database
         try{
-            PreparedStatement ps = Main.db.prepareStatement("UPDATE Staff SET restaurantName = ?, restaurantLocation = ?, restaurantTime = ? WHERE restaurantID = ?");
-            ps.setInt(1, restaurantID);
-            ps.setString(2, restaurantName);
-            ps.setString(3, restaurantLocation);
-            ps.setString(4, restaurantTime);
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE Staff SET pizzaTotal = ?, sideTotal = ?, drinkTotal = ? WHERE basketID = ?");
+            ps.setInt(1, basketID);
+            ps.setInt(2, pizzaTotal);
+            ps.setInt(3, sideTotal);
+            ps.setInt(4, drinkTotal);
             ps.executeUpdate();
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
 
-    public static void deleteStaff(int restaurantID){
-        //this allows you to delete a restaurant from the database
+    public static void deleteBasket(int basketID){
+        //this allows you to delete a basket from the database
         try{
-            PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Restaurant WHERE restaurantID = ?");
-            ps.setInt(1, restaurantID);
+            PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Basket WHERE basketID = ?");
+            ps.setInt(1, basketID);
             ps.executeUpdate();
         }catch(Exception e){
             System.out.println(e.getMessage());

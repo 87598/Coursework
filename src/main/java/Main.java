@@ -30,13 +30,11 @@ public class Main {
         }
 
         if(menuloop == 1){
-            String customerFirst;
             boolean done = false;
 
-            firstName(done);
-            System.out.println(customerFirst);
-            done = false;
-
+            System.out.println("Please enter your first name: ");
+            String customerFirst = input.nextLine();
+            customerFirst = input.nextLine();
             System.out.println("Please enter your last name: ");
             String customerLast = input.nextLine();
             System.out.println("Please enter your chosen username: ");
