@@ -1,3 +1,12 @@
+package Server;
+
+import Controllers.customerController;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
 import org.sqlite.SQLiteConfig;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,15 +16,31 @@ import java.util.Scanner;
 public class Main {
     public static Connection db = null; //this will be representing a global variable
 
-
-
     public static void main(String[] args){
         openDatabase("Pizza Delivery System Database.db"); //opens the database
 
-        int menuloop = 0;
-
+//______________________________________________________________________________________________________________________
         Scanner input = new Scanner(System.in);
 
+        ResourceConfig config = new ResourceConfig();
+        config.packages("Controllers");
+        config.register(MultiPartFeature.class);
+        ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+
+        Server server = new Server(8081);
+        ServletContextHandler context = new ServletContextHandler(server, "/");
+        context.addServlet(servlet, "/*");
+
+        try {
+            server.start();
+            System.out.println("Server successfully started.");
+            server.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//______________________________________________________________________________________________________________________
+
+        int menuloop = 0;
         while(menuloop < 1 || menuloop > 8) {
             System.out.println("Please enter the number to choose the option: ");
             System.out.println("1 - SIGN UP");
@@ -34,7 +59,6 @@ public class Main {
 
             System.out.println("Please enter your first name: ");
             String customerFirst = input.nextLine();
-            customerFirst = input.nextLine();
             System.out.println("Please enter your last name: ");
             String customerLast = input.nextLine();
             System.out.println("Please enter your chosen username: ");

@@ -1,24 +1,57 @@
+package Controllers;
+import Server.Main;
+import com.sun.jersey.multipart.FormDataParam;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/*
+    The API request handler for /Customer/list/
+        FormDataParams: none
+        Cookies: none
+ */
+
+
 public class customerController {
 
-    public static void listCustomer(int customerID, String customerUser, String customerPass) {
+    @GET
+    @Path("list/{customerID}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listCustomer(@PathParam("customerID") int customerID , @FormDataParam("customerUser") String customerUser, @FormDataParam("customerPass") String customerPass) {
         //this block of code allows you to read the database so that the data can be used
+        System.out.println("Customer/list");
+        JSONArray list = new JSONArray();
         try {
             PreparedStatement ps = Main.db.prepareStatement("SELECT customerID, customerUser, customerPass FROM Customer");
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
-                customerID = results.getInt(1);
-                customerUser = results.getString(2);
-                customerPass = results.getString(3);
-                System.out.println(customerID + " " + customerUser + " " + customerPass);
+                JSONObject item = new JSONObject();
+                item.put("customerID", results.getInt(1));
+                item.put("customerUser", results.getString(2));
+                item.put("customerPass", results.getString(3));
+                list.add(item);
+                //System.out.println(customerID + " " + customerUser + " " + customerPass);
             }
+            return list.toString();
         } catch (Exception exception) { //this will catch the errors
             System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to list customers, please see server console for more info.\"}";
         }
     }
+
+    /*
+    The API request handler for /Customer/add/
+        FormDataParams: none
+        Cookies: none
+ */
 
     public static void insertCustomer(String customerFirst, String customerLast, String customerUser, String customerPass, String customerStreet, String customerTown, String customerPostcode, String customerBank, String customerAllergies) {
         //this block of code allows you to insert a user into the database

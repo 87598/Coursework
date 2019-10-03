@@ -1,3 +1,7 @@
+package Controllers;
+
+import Server.Main;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -6,7 +10,6 @@ public class basketController {
         //this block of code allows you to read the database so that the data can be used
         try {
             PreparedStatement ps = Main.db.prepareStatement("SELECT basketID, pizzaTotal, sideTotal, drinkTotal FROM Basket");
-
             ResultSet results = ps.executeQuery();
             while (results.next()) {
                 basketID = results.getInt(1);
