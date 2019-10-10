@@ -1,30 +1,29 @@
 package Controllers;
+
 import Server.Main;
-import com.sun.jersey.multipart.FormDataParam;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 /*
-    The API request handler for /Customer/list/
+    The API request handler for /Customer/list
         FormDataParams: none
         Cookies: none
  */
 
-
+@Path("Customer/")
 public class customerController {
 
     @GET
-    @Path("list/{customerID}")
+    @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
-    public String listCustomer(@PathParam("customerID") int customerID , @FormDataParam("customerUser") String customerUser, @FormDataParam("customerPass") String customerPass) {
+    public String listCustomer() {
         //this block of code allows you to read the database so that the data can be used
         System.out.println("Customer/list");
         JSONArray list = new JSONArray();
@@ -48,15 +47,25 @@ public class customerController {
     }
 
     /*
-    The API request handler for /Customer/add/
+    The API request handler for /Customer/insert
         FormDataParams: none
         Cookies: none
  */
 
-    public static void insertCustomer(String customerFirst, String customerLast, String customerUser, String customerPass, String customerStreet, String customerTown, String customerPostcode, String customerBank, String customerAllergies) {
+    @POST
+    @Path("signup")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String insertCustomer(
+            @FormDataParam("customerFirst") String customerFirst, @FormDataParam("customerLast")String customerLast, @FormDataParam("customerUser")String customerUser, @FormDataParam("customerPass")String customerPass, @FormDataParam("customerStreet")String customerStreet, @FormDataParam("customerTown")String customerTown, @FormDataParam("customerPostcode")String customerPostcode, @FormDataParam("customerBank")String customerBank,@FormDataParam("customerAllergies") String customerAllergies
+      ){
         //this block of code allows you to insert a user into the database
         try {
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Customer (customerFirst, customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank, customerAllergies) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            if( customerFirst == null || customerLast == null ||customerUser == null ||customerPass == null ||customerStreet == null ||customerTown == null ||customerPostcode == null ||customerBank == null){
+                throw new Exception(" One or more form data parameters are missing in the HTTP request.");
+            }
+            System.out.println("Customer/signup customerUser = " + customerUser);
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Customer (customerFirst, customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank, customerAllergies) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?");
 
             ps.setString(1, customerFirst);
             ps.setString(2, customerLast);
@@ -69,10 +78,19 @@ public class customerController {
             ps.setString(9, customerAllergies);
 
             ps.executeUpdate();
+            return "{\"status\": \"OK\"}";
+
         } catch (Exception exception) { //this will catch the errors
             System.out.println("Database error" + exception.getMessage());
+            return "{\"error\": \"Unable to create new item, please see server console for more info.\"}";
         }
     }
+
+    /*
+    The API request handler for /Customer/update/
+        FormDataParams: none
+        Cookies: none
+ */
 
     public static void updateCustomer(String customerUser, String customerPass, int customerID){
     //this allows you to update a user from the database

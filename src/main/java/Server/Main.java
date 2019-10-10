@@ -75,7 +75,7 @@ public class Main {
             String customerBank = input.nextLine();
             System.out.println("Please enter your allergies: ");
             String customerAllergies = input.nextLine();
-            customerController.insertCustomer(customerFirst, customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank, customerAllergies);
+
         }
 
 
