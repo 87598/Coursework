@@ -1,28 +1,62 @@
 package Controllers;
 import Server.Main;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+
+@Path("Pizza/")
+
 public class pizzaController {
-    public static void listPizza(int pizzaID, String pizzaName, String pizzaTopping, String pizzaBase, String pizzaCrust) {
+
+
+
+    /*
+    The API request handler for /Pizza/list
+        FormDataParams: none
+        Cookies: none
+ */
+
+    @GET
+    @Path("list")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listPizza() {
         //this block of code allows you to read the database so that the data can be used
+        System.out.println("Pizza/list");
+        JSONArray list = new JSONArray();
         try {
+
             PreparedStatement ps = Main.db.prepareStatement("SELECT pizzaID, pizzaName, pizzaTopping, pizzaBase, pizzaCrust FROM Pizzas");
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
-                pizzaID = results.getInt(1);
-                pizzaName = results.getString(2);
-                pizzaTopping = results.getString(3);
-                pizzaBase = results.getString(4);
-                pizzaCrust = results.getString(5);
-                System.out.println(pizzaID + " " + pizzaName + " " + pizzaTopping + " " + pizzaBase + " " + pizzaCrust);
+                JSONObject item = new JSONObject();
+                item.put("pizzaID", results.getInt(1));
+                item.put("pizzaName", results.getString(2));
+                item.put("pizzaTopping", results.getString(3));
+                item.put("pizzaBase", results.getString(4));
+                item.put("pizzaCrust", results.getString(5));
+                list.add(item);
+                //System.out.println(pizzaID + " " + pizzaName + " " + pizzaTopping + " " + pizzaBase + " " + pizzaCrust);
             }
+            return list.toString();
         } catch (Exception exception) { //this will catch the errors
             System.out.println("Database error: " + exception.getMessage());
+            return "{\"error\": \"Unable to list pizzas, please see server console for more info.\"}";
         }
     }
+
+    /*
+   The API request handler for /Pizza/add
+       FormDataParams: none
+       Cookies: none
+*/
 
     public static void insertPizza(String pizzaName, Character pizzaSize, String pizzaTopping, String pizzaBase, String pizzaCrust, Integer pizzaPrice) {
         //this block of code allows you to insert a pizza into the database

@@ -11,14 +11,16 @@ import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-/*
+
+
+@Path("Customer/")
+public class customerController {
+
+    /*
     The API request handler for /Customer/list
         FormDataParams: none
         Cookies: none
  */
-
-@Path("Customer/")
-public class customerController {
 
     @GET
     @Path("list")
@@ -47,9 +49,9 @@ public class customerController {
     }
 
     /*
-    The API request handler for /Customer/insert
-        FormDataParams: none
-        Cookies: none
+    The API request handler for /Customer/signup
+        FormDataParams: customerFirst, customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank, customerAllergies
+        Cookies: cookie for the customer
  */
 
     @POST
@@ -57,7 +59,15 @@ public class customerController {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public String insertCustomer(
-            @FormDataParam("customerFirst") String customerFirst, @FormDataParam("customerLast")String customerLast, @FormDataParam("customerUser")String customerUser, @FormDataParam("customerPass")String customerPass, @FormDataParam("customerStreet")String customerStreet, @FormDataParam("customerTown")String customerTown, @FormDataParam("customerPostcode")String customerPostcode, @FormDataParam("customerBank")String customerBank,@FormDataParam("customerAllergies") String customerAllergies
+            @FormDataParam("customerFirst") String customerFirst,
+            @FormDataParam("customerLast")String customerLast,
+            @FormDataParam("customerUser")String customerUser,
+            @FormDataParam("customerPass")String customerPass,
+            @FormDataParam("customerStreet")String customerStreet,
+            @FormDataParam("customerTown")String customerTown,
+            @FormDataParam("customerPostcode")String customerPostcode,
+            @FormDataParam("customerBank")String customerBank,
+            @FormDataParam("customerAllergies")String customerAllergies
       ){
         //this block of code allows you to insert a user into the database
         try {
@@ -65,7 +75,7 @@ public class customerController {
                 throw new Exception(" One or more form data parameters are missing in the HTTP request.");
             }
             System.out.println("Customer/signup customerUser = " + customerUser);
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Customer (customerFirst, customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank, customerAllergies) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Customer (customerFirst, customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank, customerAllergies) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
 
             ps.setString(1, customerFirst);
             ps.setString(2, customerLast);
@@ -82,37 +92,68 @@ public class customerController {
 
         } catch (Exception exception) { //this will catch the errors
             System.out.println("Database error" + exception.getMessage());
-            return "{\"error\": \"Unable to create new item, please see server console for more info.\"}";
+            return "{\"error\": \"Unable to create new customer, please see server console for more info.\"}";
         }
     }
 
     /*
-    The API request handler for /Customer/update/
-        FormDataParams: none
-        Cookies: none
+    The API request handler for /Customer/update
+        FormDataParams: customerID, customerUser, customerPass
+        Cookies: need to be the user's (user that's updating the account) token
  */
 
-    public static void updateCustomer(String customerUser, String customerPass, int customerID){
+    @POST
+    @Path("update")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String updateCustomer(
+            @FormDataParam("customerUser") String customerUser,
+            @FormDataParam("customerPass")String customerPass,
+            @FormDataParam("customerID") Integer customerID
+    ){
     //this allows you to update a user from the database
         try{
+            if(customerUser == null || customerPass == null || customerID == null){
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+            System.out.println("Customer/update customerID = "+ customerID);
             PreparedStatement ps = Main.db.prepareStatement("UPDATE Customer SET customerUser = ?, customerPass = ? WHERE customerID = ?");
             ps.setInt(1, customerID);
             ps.setString(2, customerUser);
             ps.setString(3, customerPass);
             ps.executeUpdate();
+            return "{\"status\": \"OK\"}";
         }catch(Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("Database error: " + e.getMessage());
+            return "{\"error\": \"Unable to update customer, please see server console for more info.\"}";
         }
     }
 
-    public static void deleteCustomer(int customerID){
+     /*
+    The API request handler for /Customer/delete
+        FormDataParams: none
+        Cookies: need to be the user's (user that's updating the account) token or an admin
+ */
+
+     @POST
+     @Path("delete")
+     @Consumes(MediaType.MULTIPART_FORM_DATA)
+     @Produces(MediaType.APPLICATION_JSON)
+    public String deleteCustomer(@FormDataParam("customerID")Integer customerID){
         //this allows you to delete a user from the database
         try{
+            if (customerID == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+            System.out.println("Customer/delete customerID = " +  customerID);
+
             PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Customer WHERE customerID = ?");
             ps.setInt(1, customerID);
             ps.executeUpdate();
+            return "{\"status\": \"OK\"}";
         }catch(Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("Database error: " + e.getMessage());
+            return "{\"error\": \"Unable to delete customer, please see server console for more info.\"}";
         }
     }
 
