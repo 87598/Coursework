@@ -71,11 +71,19 @@ public class customerController {
       ){
         //this block of code allows you to insert a user into the database
         try {
-            if( customerFirst == null || customerLast == null ||customerUser == null ||customerPass == null ||customerStreet == null ||customerTown == null ||customerPostcode == null ||customerBank == null){
+            if( customerFirst == null ||
+                    customerLast == null ||
+                    customerUser == null ||
+                    customerPass == null ||
+                    customerStreet == null ||
+                    customerTown == null ||
+                    customerPostcode == null ||
+                    customerBank == null){
                 throw new Exception(" One or more form data parameters are missing in the HTTP request.");
             }
             System.out.println("Customer/signup customerUser = " + customerUser);
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Customer (customerFirst, customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank, customerAllergies) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Customer (customerFirst," +
+                    " customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank, customerAllergies) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
 
             ps.setString(1, customerFirst);
             ps.setString(2, customerLast);
