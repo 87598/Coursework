@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Pizza Delivery System Database" uuid="17bb0369-9f6c-4c97-818e-bbfc1d901b74">
+    <data-source source="LOCAL" name="Pizza Delivery System Database.db" uuid="393ecea9-a0eb-443c-8279-6bb81d47b815">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>SQLite</remarks>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:U:\Computer Science\PROJECT\resources\Pizza Delivery System Database.db</jdbc-url>
-      <driver-properties>
-        <property name="enable_load_extension" value="true" />
-      </driver-properties>
-    </data-source>
-    <data-source source="LOCAL" name="Pizza Delivery System Database [2]" uuid="cf4e0dc5-0855-49e7-ae48-5b8ced63e47a">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>SQLite</remarks>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:U:\Computer Science\PROJECT\resources\Pizza Delivery System Database.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/resources/Pizza Delivery System Database.db</jdbc-url>
       <driver-properties>
         <property name="enable_load_extension" value="true" />
       </driver-properties>
