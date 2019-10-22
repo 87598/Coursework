@@ -58,9 +58,27 @@ public class pizzaController {
        Cookies: none
 */
 
-    public static void insertPizza(String pizzaName, Character pizzaSize, String pizzaTopping, String pizzaBase, String pizzaCrust, Integer pizzaPrice) {
+    @POST
+    @Path("create")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public  String insertPizza(@FormDataParam("pizzaName")String pizzaName,
+                               @FormDataParam("pizzaSize")Character pizzaSize,
+                               @FormDataParam("pizzaTopping")String pizzaTopping,
+                               @FormDataParam("pizzaName")String pizzaBase,
+                               @FormDataParam("pizzaBase")String pizzaCrust,
+                               @FormDataParam("pizzaPrice")Integer pizzaPrice) {
         //this block of code allows you to insert a pizza into the database
         try {
+            if(pizzaName == null ||
+                    pizzaSize == null ||
+                    pizzaTopping == null ||
+                    pizzaBase == null ||
+                    pizzaCrust == null ||
+                    pizzaPrice == null ){
+                throw new Exception(" One or more form data parameters are missing in the HTTP request.");
+            }
+            System.out.println("Pizza/create pizzaName = " + pizzaName);
             PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Pizzas (pizzaName, pizzaSize, pizzaTopping, pizzaBase, pizzaCrust, pizzaPrice) VALUES ( ?, ?, ?, ?, ?, ?)");
 
             ps.setString(1, pizzaName);
@@ -72,10 +90,18 @@ public class pizzaController {
 
 
             ps.executeUpdate();
+            return "{\"status\": \"OK\"}";
         } catch (Exception exception) { //this will catch the errors
             System.out.println("Database error" + exception.getMessage());
+            return "{\"error\": \"Unable to create new pizza, please see server console for more info.\"}";
         }
     }
+
+/*
+   The API request handler for /Pizza/update
+       FormDataParams: none
+       Cookies: none
+*/
 
     public static void updatePizza(Integer pizzaID, String pizzaName, Character pizzaSize, String pizzaTopping, String pizzaBase, String pizzaCrust, Integer pizzaPrice){
         //this allows you to update a pizza in the database

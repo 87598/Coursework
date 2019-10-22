@@ -82,8 +82,7 @@ public class customerController {
                 throw new Exception(" One or more form data parameters are missing in the HTTP request.");
             }
             System.out.println("Customer/signup customerUser = " + customerUser);
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Customer (customerFirst," +
-                    " customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank, customerAllergies) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Customer (customerFirst, customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank, customerAllergies) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
 
             ps.setString(1, customerFirst);
             ps.setString(2, customerLast);
