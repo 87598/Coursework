@@ -59,6 +59,7 @@ public class Main {
 
             System.out.println("Please enter your first name: ");
             String customerFirst = input.nextLine();
+            customerFirst = input.nextLine();
             System.out.println("Please enter your last name: ");
             String customerLast = input.nextLine();
             System.out.println("Please enter your chosen username: ");

@@ -68,7 +68,7 @@ public class customerController {
             @FormDataParam("customerPostcode")String customerPostcode,
             @FormDataParam("customerBank")String customerBank,
             @FormDataParam("customerAllergies")String customerAllergies
-      ){
+    ){
         //this block of code allows you to insert a user into the database
         try {
             if( customerFirst == null ||
@@ -118,7 +118,7 @@ public class customerController {
             @FormDataParam("customerPass")String customerPass,
             @FormDataParam("customerID") Integer customerID
     ){
-    //this allows you to update a user from the database
+        //this allows you to update a user from the database
         try{
             if(customerUser == null || customerPass == null || customerID == null){
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
@@ -142,10 +142,10 @@ public class customerController {
         Cookies: need to be the user's (user that's updating the account) token or an admin
  */
 
-     @POST
-     @Path("delete")
-     @Consumes(MediaType.MULTIPART_FORM_DATA)
-     @Produces(MediaType.APPLICATION_JSON)
+    @POST
+    @Path("delete")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
     public String deleteCustomer(@FormDataParam("customerID")Integer customerID){
         //this allows you to delete a user from the database
         try{
