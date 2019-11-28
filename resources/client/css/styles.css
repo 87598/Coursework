@@ -1,7 +1,8 @@
 body {
     background-color: navy;
     margin: 0;
-    font-family: 'Arial', serif;
+    font-family: Algerian;
+    color: crimson;
 }
 
 h1 {
@@ -15,3 +16,4 @@ h1 {
     min-height: 600px;
     padding: 32px;
 }
+

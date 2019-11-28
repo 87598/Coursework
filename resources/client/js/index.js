@@ -1,24 +1,35 @@
+
+
 function pageLoad() {
 
     let now = new Date();
 
     let myHTML = '<div style="text-align:center;">'
-        + '<h1>Welcome to my API powered website!</h1>'
-        + '<img src="/client/img/keanu reeves.jpg.jfif"  alt="Logo"/>'
+        + '<h1>Pizza Ordering System</h1>'
+        + '<img src="/client/img/pizza-fun-facts.jpg"  alt="Logo"/>'
         + '<div style="font-style: italic;">'
         + 'Generated at ' + now.toLocaleTimeString()
         + '</div>'
         + '</div>';
 
-    document.getElementById("testDiv").innerHTML = myHTML;
+    document.getElementById("listDiv").innerHTML = myHTML;
 
-    let pizzaHTML = `<table>` +
+    let pizzaHTML = '<div style="text-align:center;">'
+        + '<h1>Pizza Ordering System</h1>'
+        + '<img src="/client/img/pizza-fun-facts.jpg"  alt="Logo"/>'
+        + '<div style="font-style: italic;">'
+        + 'Generated at ' + now.toLocaleTimeString()
+        + '</div>'
+        + '</div>' +
+        `<table>` +
         '<tr>' +
-        '<th>Id</th>' +
+        '<th>ID</th>' +
         '<th>Name</th>' +
-        '<th>Image</th>' +
-        '<th>Description</th>' +
+        '<th>pizzaImage</th>' +
         '<th>Size</th>' +
+        '<th>Base</th>' +
+        '<th>Crust</th>' +
+        //'<th>Quantity</th>' +
         '<th>Price</th>' +
         '<th class="last">Options</th>' +
         '</tr>';
@@ -30,13 +41,18 @@ function pageLoad() {
         for (let pizza of pizzas) {
 
             pizzaHTML += `<tr>` +
-                `<td>${pizza.id}</td>` +
-                `<td>${pizza.name}</td>` +
-                `<td><img src='/client/img/${pizza.image}' alt='Picture of ${pizza.name}' height='100px'></td>` +
-                `<td>${pizza.size}</td>` +
+                `<td>${pizza.pizzaID}</td>` +
+                `<td>${pizza.pizzaName}</td>` +
+                `<td><img src='/client/img/${pizza.pizzaImage}' alt='Picture of ${pizza.pizzaName}' height='100px'></td>` +
+                `<td>${pizza.pizzaSize}</td>` +
+                `<td>${pizza.pizzaBase}</td>` +
+                `<td>${pizza.pizzaCrust}</td>` +
+                //`<td>${pizza.pizzaQuantity}</td>` +
+                `<td>${pizza.pizzaPrice}</td>` +
+
                 `<td class="last">` +
-                `<button class='editButton' data-id='${pizza.id}'>Edit</button>` +
-                `<button class='deleteButton' data-id='${pizza.id}'>Delete</button>` +
+                `<button class='editButton' data-id='${pizza.pizzaID}'>Edit</button>` +
+                `<button class='deleteButton' data-id='${pizza.pizzaID}'>Delete</button>` +
                 `</td>` +
                 `</tr>`;
 
@@ -55,11 +71,12 @@ function pageLoad() {
             button.addEventListener("click", deletePizza);
         }
 
-
     });
 
-
+    document.getElementById("saveButton").addEventListener("click", cancelEditPizza);
+    document.getElementById("cancelButton").addEventListener("click", cancelDeletePizza);
 
 }
+
 
 

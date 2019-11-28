@@ -32,16 +32,20 @@ public class pizzaController {
         JSONArray list = new JSONArray();
         try {
 
-            PreparedStatement ps = Main.db.prepareStatement("SELECT pizzaID, pizzaName, pizzaBase, pizzaCrust FROM Pizzas");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT pizzaID, pizzaName, pizzaImage, pizzaSize, pizzaBase, pizzaCrust, pizzaPrice FROM Pizzas");
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
                 JSONObject item = new JSONObject();
                 item.put("pizzaID", results.getInt(1));
                 item.put("pizzaName", results.getString(2));
-                item.put("pizzaBase", results.getString(3));
-                item.put("pizzaCrust", results.getString(4));
+                item.put("pizzaImage", results.getString(3));
+                item.put("pizzaSize", results.getObject(4));
+                item.put("pizzaBase", results.getString(5));
+                item.put("pizzaCrust", results.getString(6));
+                item.put("pizzaPrice", results.getInt(7));
                 list.add(item);
+
                 //System.out.println(pizzaID + " " + pizzaName + " " + pizzaTopping + " " + pizzaBase + " " + pizzaCrust);
             }
             return list.toString();
