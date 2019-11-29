@@ -17,7 +17,7 @@ public class Main {
     public static Connection db = null; //this will be representing a global variable
 
     public static void main(String[] args){
-        openDatabase("Pizza Delivery System Database.db"); //opens the database
+        openDatabase("Pizza Delivery System Database0.db"); //opens the database
 
 //______________________________________________________________________________________________________________________
         Scanner input = new Scanner(System.in);

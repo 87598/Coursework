@@ -15,7 +15,7 @@ function pageLoad() {
     document.getElementById("listDiv").innerHTML = myHTML;
 
     let pizzaHTML = '<div style="text-align:center;">'
-        + '<h1>Pizza Ordering System</h1>'
+        + '<h1>R PIZZA</h1>'
         + '<img src="/client/img/pizza-fun-facts.jpg"  alt="Logo"/>'
         + '<div style="font-style: italic;">'
         + 'Generated at ' + now.toLocaleTimeString()
@@ -25,7 +25,7 @@ function pageLoad() {
         '<tr>' +
         '<th>ID</th>' +
         '<th>Name</th>' +
-        '<th>pizzaImage</th>' +
+        '<th>Image</th>' +
         '<th>Size</th>' +
         '<th>Base</th>' +
         '<th>Crust</th>' +
