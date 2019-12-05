@@ -10,11 +10,29 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.util.UUID;
+import java.util.HashMap;
 
 
 @Path("Customer/")
 public class customerController {
+
+    /*
+    Validate tokens
+ */
+
+    public static boolean validToken(String token) {
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT customerID FROM Customer WHERE token = ?");
+            ps.setString(1, token);
+            ResultSet logoutResults = ps.executeQuery();
+            return logoutResults.next();
+        } catch (Exception exception) {
+            System.out.println("Database error during /Customer/logout: " + exception.getMessage());
+            return false;
+        }
+    }
+
 
     /*
     The API request handler for /Customer/list
@@ -60,29 +78,33 @@ public class customerController {
     @Produces(MediaType.APPLICATION_JSON)
     public String insertCustomer(
             @FormDataParam("customerFirst") String customerFirst,
-            @FormDataParam("customerLast")String customerLast,
-            @FormDataParam("customerUser")String customerUser,
-            @FormDataParam("customerPass")String customerPass,
-            @FormDataParam("customerStreet")String customerStreet,
-            @FormDataParam("customerTown")String customerTown,
-            @FormDataParam("customerPostcode")String customerPostcode,
-            @FormDataParam("customerBank")String customerBank,
-            @FormDataParam("customerAllergies")String customerAllergies
-    ){
+            @FormDataParam("customerLast") String customerLast,
+            @FormDataParam("customerUser") String customerUser,
+            @FormDataParam("customerPass") String customerPass,
+            @FormDataParam("customerStreet") String customerStreet,
+            @FormDataParam("customerTown") String customerTown,
+            @FormDataParam("customerPostcode") String customerPostcode,
+            @FormDataParam("customerBank") String customerBank,
+            @CookieParam("token") String token) {
+
+        if (!customerController.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
+
         //this block of code allows you to insert a user into the database
         try {
-            if( customerFirst == null ||
+            if (customerFirst == null ||
                     customerLast == null ||
                     customerUser == null ||
                     customerPass == null ||
                     customerStreet == null ||
                     customerTown == null ||
                     customerPostcode == null ||
-                    customerBank == null){
+                    customerBank == null) {
                 throw new Exception(" One or more form data parameters are missing in the HTTP request.");
             }
             System.out.println("Customer/signup customerUser = " + customerUser);
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Customer (customerFirst, customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank, customerAllergies) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Customer (customerFirst, customerLast, customerUser, customerPass, customerStreet, customerTown, customerPostcode, customerBank) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )");
 
             ps.setString(1, customerFirst);
             ps.setString(2, customerLast);
@@ -92,7 +114,7 @@ public class customerController {
             ps.setString(6, customerTown);
             ps.setString(7, customerPostcode);
             ps.setString(8, customerBank);
-            ps.setString(9, customerAllergies);
+
 
             ps.executeUpdate();
             return "{\"status\": \"OK\"}";
@@ -115,22 +137,22 @@ public class customerController {
     @Produces(MediaType.APPLICATION_JSON)
     public String updateCustomer(
             @FormDataParam("customerUser") String customerUser,
-            @FormDataParam("customerPass")String customerPass,
+            @FormDataParam("customerPass") String customerPass,
             @FormDataParam("customerID") Integer customerID
-    ){
+    ) {
         //this allows you to update a user from the database
-        try{
-            if(customerUser == null || customerPass == null || customerID == null){
+        try {
+            if (customerUser == null || customerPass == null || customerID == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
-            System.out.println("Customer/update customerID = "+ customerID);
+            System.out.println("Customer/update customerID = " + customerID);
             PreparedStatement ps = Main.db.prepareStatement("UPDATE Customer SET customerUser = ?, customerPass = ? WHERE customerID = ?");
             ps.setInt(1, customerID);
             ps.setString(2, customerUser);
             ps.setString(3, customerPass);
             ps.executeUpdate();
             return "{\"status\": \"OK\"}";
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Database error: " + e.getMessage());
             return "{\"error\": \"Unable to update customer, please see server console for more info.\"}";
         }
@@ -146,22 +168,128 @@ public class customerController {
     @Path("delete")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String deleteCustomer(@FormDataParam("customerID")Integer customerID){
+    public String deleteCustomer(@FormDataParam("customerID") Integer customerID) {
         //this allows you to delete a user from the database
-        try{
+        try {
             if (customerID == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
-            System.out.println("Customer/delete customerID = " +  customerID);
+            System.out.println("Customer/delete customerID = " + customerID);
 
             PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Customer WHERE customerID = ?");
             ps.setInt(1, customerID);
             ps.executeUpdate();
             return "{\"status\": \"OK\"}";
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Database error: " + e.getMessage());
             return "{\"error\": \"Unable to delete customer, please see server console for more info.\"}";
         }
     }
 
+    /*
+    The API request handler for /Customer/delete
+        FormDataParams: none
+        Cookies: need to be the user's (user that's updating the account) token or an admin
+ */
+
+    @POST
+    @Path("login")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String loginCustomer(@FormDataParam("customerUser") String customerUser,
+                                @FormDataParam("customerPass") String customerPass
+    ) {
+
+        try {
+
+            if (customerUser == null ||
+                    customerPass == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+
+            System.out.println("Customer/login customerUser = " + customerUser);
+
+            PreparedStatement ps1 = Main.db.prepareStatement("SELECT customerPass FROM Customer WHERE customerUser = ?");
+            ps1.setString(1, customerUser);
+            ResultSet loginResults = ps1.executeQuery();
+            if (loginResults.next()) {
+
+                String correctPassword = loginResults.getString(1);
+
+                if (customerPass.equals(correctPassword)) {
+
+                    String token = UUID.randomUUID().toString();
+
+                    PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Customer SET token = ? WHERE customerUser = ?");
+                    ps2.setString(1, token);
+                    ps2.setString(2, customerUser);
+                    ps2.executeUpdate();
+
+                    JSONObject userDetails = new JSONObject();
+                    userDetails.put("customerUser", customerUser);
+                    userDetails.put("token", token);
+                    return userDetails.toString();
+
+                } else {
+                    return "{\"error\": \"Incorrect password!\"}";
+                }
+
+            } else {
+                return "{\"error\": \"Unknown customer!\"}";
+            }
+
+        } catch (Exception exception){
+            System.out.println("Database error during /Customer/login: " + exception.getMessage());
+            return "{\"error\": \"Server side error!\"}";
+        }
+    }
+
+    /*
+    The API request handler for /Customer/logout
+        FormDataParams: none
+        Cookies: need to be the user's (user that's updating the account) token or an admin
+ */
+
+    @POST
+    @Path("logout")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String logoutUser(@CookieParam("token") String token) {
+
+        try {
+
+            System.out.println("Customer/logout");
+
+            PreparedStatement ps1 = Main.db.prepareStatement("SELECT customerID FROM Customer WHERE token = ?");
+            ps1.setString(1, token);
+            ResultSet logoutResults = ps1.executeQuery();
+            if (logoutResults.next()) {
+
+                int id = logoutResults.getInt(1);
+
+                PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Customer SET token = NULL WHERE customerUser = ?");
+                ps2.setInt(1, id);
+                ps2.executeUpdate();
+
+                return "{\"status\": \"OK\"}";
+            } else {
+
+                return "{\"error\": \"Invalid token!\"}";
+
+            }
+
+        } catch (Exception exception){
+            System.out.println("Database error during /user/logout: " + exception.getMessage());
+            return "{\"error\": \"Server side error!\"}";
+        }
+
+    }
+
 }
+
+
+
+
+
+
+
