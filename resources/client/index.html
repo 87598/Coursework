@@ -3,29 +3,33 @@
 
 <head>
     <title>Pizza Ordering System</title>
-    <link rel="stylesheet" type="text/css" href="/client/css/styles.css">
-    <script src="/client/js/js.cookie.js"></script>
-    <script src="/client/js/index.js"></script>
-    <link rel="icon" href="logo.jpg" type = "image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="js/js.cookie.js"></script>
+    <script src="js/index.js"></script>
 
 </head>
 
-<ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="">Menu</a></li>
-    <li><a href="">Favourites</a></li>
-    <li><a href="">Basket</a></li>
-    <li><a href="login.html">Login</a></li>
-    <li id="loggedInDetails"></li>
-</ul>
+
 
 <body onload="pageLoad()">
+<header>
+    <img  src="img/logo3.JPG"  alt="image of pizza">
+    <nav class = "nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="">Menu</a></li>
+            <li><a href="">Favourites</a></li>
+            <li><a href="">Basket</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><div id="loggedInDetails">I, too, am an logon details</div></li>
+        </ul>
+    </nav>
+</header>
 <div id="content">
-    <div id="indexDiv">
-        <img src="favicon.ico" width="100px">
-    </div>
 
-    <div id="listDiv"></div>
+    <div id="listDiv">
+
+    </div>
 </div>
 </body>
 

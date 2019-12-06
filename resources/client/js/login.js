@@ -22,7 +22,7 @@ function login(event) {
         if (responseData.hasOwnProperty('error')) {
             alert(responseData.error);
         } else {
-            Cookies.set("customerUser", responseData.username);
+            Cookies.set("customerUser", responseData.customerUser);
             Cookies.set("token", responseData.token);
 
             window.location.href = '/client/index.html';

@@ -225,10 +225,10 @@ public class customerController {
                     ps2.setString(2, customerUser);
                     ps2.executeUpdate();
 
-                    JSONObject userDetails = new JSONObject();
-                    userDetails.put("customerUser", customerUser);
-                    userDetails.put("token", token);
-                    return userDetails.toString();
+                    JSONObject response = new JSONObject();
+                    response.put("customerUser", customerUser);
+                    response.put("token", token);
+                    return response.toString();
 
                 } else {
                     return "{\"error\": \"Incorrect password!\"}";

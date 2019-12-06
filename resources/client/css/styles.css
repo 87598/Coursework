@@ -1,5 +1,5 @@
 body {
-    background-color: red;
+    background: radial-gradient(red, darkred);
     margin: 0;
     font-family: Calibri;
     color: indianred;
@@ -18,8 +18,8 @@ h1 {
 }
 
 #indexDiv {
-    background-color: yellow;
-    width: 100px;
+    background-color: transparent;
+    width: 80px;
     margin: 0;
     padding: 5px;
 }
@@ -83,20 +83,48 @@ table {
 }
 /*navigation bar----------------------------------------------------------------------------------*/
 
-.navbar{
+.nav{
     list-style-type: none;
     padding: 15px;
-    background-color: ghostwhite;
+    background-color: white;
     overflow: hidden;
+    display: inline-block;
+    align-items: center;
+    width: 100%;
+
 
 }
 
-.navbar li{
+.nav li{
     display: inline-block;
     width: 150px;
-
+    float: left;
+    margin: 5px;
 }
 
+.nav li a{
+    color: crimson;
+    text-decoration: none;
+}
+
+header img{
+    height: 80px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+header {
+
+    display: inline-flex;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    align-items: center;
+}
+/*----------------------------------------------------------------------------------*/
 
 .mainbuttons {
     background-color: transparent;
@@ -121,9 +149,12 @@ table {
 /*login and logout----------------------------------------------------------------------------------*/
 
 .loginDiv {
+
+    padding: 10px;
     font-size: 14pt;
     margin-top: 40px;
-    margin-left: 20px;
+    margin-left: 35%;
+    align-content: center;
 
 }
 
@@ -134,7 +165,7 @@ table {
 
 #loginButton {
     width: 200px;
-    background-color: cornflowerblue;
+    background-color: silver;
     border-radius: 10px;
 }
 

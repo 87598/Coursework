@@ -63,27 +63,27 @@ function pageLoad() {
 
         let editButtons = document.getElementsByClassName("editButton");
         for (let button of editButtons) {
-            button.addEventListener("click", editPizza);
+            //button.addEventListener("click", editPizza);
         }
 
         let deleteButtons = document.getElementsByClassName("deleteButton");
         for (let button of deleteButtons) {
-            button.addEventListener("click", deletePizza);
+            //button.addEventListener("click", deletePizza);
         }
 
         checkLogin();
 
     });
 
-    document.getElementById("saveButton").addEventListener("click", cancelEditPizza);
-    document.getElementById("cancelButton").addEventListener("click", cancelDeletePizza);
+    //document.getElementById("saveButton").addEventListener("click", cancelEditPizza);
+    //document.getElementById("cancelButton").addEventListener("click", cancelDeletePizza);
 
 
         }
 
 function checkLogin() {
 
-    let username = Cookies.get("username");
+    let username = Cookies.get("customerUser");
 
     let logInHTML = '';
 
