@@ -1,7 +1,7 @@
 body {
     background: radial-gradient(red, darkred);
     margin: 0;
-    font-family: Calibri;
+    font-family: Calibri, serif;
     color: indianred;
 }
 
@@ -30,6 +30,13 @@ ul {
     padding: 0;
 }
 
+label.User{
+    font-family: Wingdings, serif;
+}
+
+label.Pass{
+    font-family: Wingdings, serif;
+}
 /*button stuff----------------------------------------------------------------------------------------------------------------*/
 .playbutton {
     box-shadow:inset 0px 0px 0px 0px #f55670;
@@ -124,6 +131,11 @@ header {
     height: 80px;
     align-items: center;
 }
+mark {
+    background-color: transparent;
+    color: crimson;
+    font-weight: bold;
+}
 /*----------------------------------------------------------------------------------*/
 
 .mainbuttons {
@@ -174,12 +186,12 @@ header {
 }
 
 #loggedInDetails {
-    margin: 0;
-    text-align: right;
-    display: inline;
-    float: right
+    color: crimson;
 }
 
+#hideConfig{
+    visibility: hidden;
+}
 /*-------------------------------------------------------------------------------------------------------*/
 
 

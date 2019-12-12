@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html>
-
-<nav class = "nav">
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="">Menu</a></li>
-        <li><a href="">Favourites</a></li>
-        <li><a href="">Basket</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li id="loggedInDetails"></li>
-    </ul>
-</nav>
-
 <head>
-    <title>Pizza Ordering System</title>
+    <title>Login Menu</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script src="js/js.cookie.js"></script>
     <script src="js/login.js"></script>
 
-
-
 </head>
+
 <body onload="pageLoad()">
+<header>
+    <img  src="img/logo3.JPG"  alt="image of pizza">
+    <nav class = "nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="restaurant.html">Restaurants</a></li>
+            <li><a href="order.html">Basket</a></li>
+            <li><a href="login.html"><mark>Login</mark></a></li>
+            <li><a href ="config.html">Config</a></li>
+            <li><div id="loggedInDetails" onload="checkLogin()">logon details</div></li>
+            <li><a href ="adminLogin.html">Admin Login</a></li>
+
+        </ul>
+    </nav>
+</header>
+
+
 <div id="content">
     <h1>Please log in to continue...</h1>
     <hr />
     <form id="loginForm">
         <div class="loginDiv">
-            <label for="customerUser">Username: </label>
+            <label for="customerUser" class = "User">Username: </label>
             <input type="text" name="customerUser" id="customerUser">
         </div>
         <div class="loginDiv">
-            <label for="customerPass">Password: </label>
+            <label for="customerPass" class = "Pass">Password: </label>
             <input type="password" name="customerPass" id="customerPass">
         </div>
         <div class="loginDiv">
