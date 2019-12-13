@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:width="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>Pizza Ordering System</title>
@@ -7,13 +7,18 @@
     <script src="js/js.cookie.js"></script>
     <script src="js/index.js"></script>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="text/html; charset=iso-8859-2" http-equiv="Content-Type">
+
+
+
 </head>
 
-
-
 <body onload="pageLoad()">
+
+<div>
 <header>
-    <img  src="img/logo3.JPG"  alt="image of pizza">
+    <img src="img/logo3.JPG"  alt="image of pizza">
     <nav class = "nav">
         <ul>
             <li><a href="index.html"><mark>Home</mark></a></li>
@@ -28,9 +33,25 @@
         </ul>
     </nav>
 </header>
+</div>
+
+
+<div class="w3-content w3-section" style="max-width:500px">
+    <img class="mySlides" src="img/pepperonipizza.jpg" style="width:100%" alt="slide">
+    <img class="mySlides" src="img/vegetarianpizza.jpg" style="width:100%" alt="slide">
+    <img class="mySlides" src="img/meatfeast.jpg" style="width:100%" alt="slide">
+</div>
+
+
+
+
+
+
 <div id="content">
 
+
     <div id="listDiv"></div>
+
 
 </div>
 </body>

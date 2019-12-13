@@ -14,8 +14,23 @@ function pageLoad() {
 
     document.getElementById("listDiv").innerHTML = myHTML;
 
+    let myIndex = 0;
+    carousel();
+
+    function carousel() {
+        let i;
+        let x = document.getElementsByClassName("mySlides");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        myIndex++;
+        if (myIndex > x.length) {myIndex = 1}
+        x[myIndex-1].style.display = "block";
+        setTimeout(carousel, 3000); // Change image every 2 seconds
+    }
+
     let pizzaHTML = '<div style="text-align:center;">'
-        + '<h1>R PIZZA</h1>'
+        +'<h1>R PIZZA</h1>'
         + '<img src="/client/img/pizza-fun-facts.jpg"  alt="Logo"/>'
         + '<div style="font-style: italic;">'
         + 'Generated at ' + now.toLocaleTimeString()
@@ -120,6 +135,8 @@ function checkLogin() {
     document.getElementById("loggedInDetails").innerHTML = logInHTML;
 
 }
+
+
 
 
 

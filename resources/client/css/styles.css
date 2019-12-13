@@ -31,11 +31,13 @@ ul {
 }
 
 label.User{
-    font-family: Wingdings, serif;
+    font-family: "Courier New", serif;
+    font-weight: bold;
 }
 
 label.Pass{
-    font-family: Wingdings, serif;
+    font-family: "Courier New", serif;
+    font-weight: bold;
 }
 /*button stuff----------------------------------------------------------------------------------------------------------------*/
 .playbutton {
@@ -62,6 +64,33 @@ label.Pass{
     top: 1px;
 }
 
+.mySlides {
+    display: inline-flex;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+}
+
+.w3-content,.w3-auto{
+    margin-left:0;
+    margin-right:0
+}
+
+.w3-content{
+    max-width:100%
+}
+
+.w3-auto{
+    max-width:100%
+}
+
+.w3-section,.w3-code{
+    margin-top:80px!important;
+    margin-bottom:0!important
+
+
+}
 
 /*table stuff----------------------------------------------------------------------------------------------------------------*/
 tr {
