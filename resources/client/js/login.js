@@ -1,14 +1,11 @@
 function pageLoad() {
-
-
-
+    checkLogin();
     if(window.location.search === '?logout') {
         document.getElementById('content').innerHTML = '<h1>Logging out, please wait...</h1>';
         logout();
     } else {
         document.getElementById("loginButton").addEventListener("click", login);
     }
-    checkLogin();
 
 }
 function login(event) {
@@ -52,42 +49,7 @@ function logout() {
     });
 
 }
-function checkLogin() {
 
-    let username = Cookies.get("customerUser");
 
-    let logInHTML = '';
 
-    if (username === undefined) {
 
-        let editButtons = document.getElementsByClassName("editButton");
-        for (let button of editButtons) {
-            button.style.visibility = "hidden";
-        }
-
-        let deleteButtons = document.getElementsByClassName("deleteButton");
-        for (let button of deleteButtons) {
-            button.style.visibility = "hidden";
-        }
-
-        logInHTML = "Not logged in. <a href='/client/login.html'>Log in</a>";
-
-    } else {
-
-        let editButtons = document.getElementsByClassName("editButton");
-        for (let button of editButtons) {
-            button.style.visibility = "visible";
-        }
-
-        let deleteButtons = document.getElementsByClassName("deleteButton");
-        for (let button of deleteButtons) {
-            button.style.visibility = "visible";
-        }
-
-        logInHTML = "Logged in as " + username + ". <a href='/client/login.html?logout'>Log out</a>";
-
-    }
-
-    document.getElementById("loggedInDetails").innerHTML = logInHTML;
-
-}

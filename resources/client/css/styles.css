@@ -91,6 +91,9 @@ label.Pass{
 
 
 }
+.w3-animate-fading{
+    animation:fading 10s infinite}@keyframes fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+
 
 /*table stuff----------------------------------------------------------------------------------------------------------------*/
 tr {

@@ -5,7 +5,8 @@
     <title>Admin Menu</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script src="js/js.cookie.js"></script>
-    <script src="js/config.js"></script>
+    <script src="js/loginChecker.js"></script>
+    <script src="js/adminLogin.js"></script>
 
 </head>
 <body onload="pageLoad()">
@@ -19,13 +20,29 @@
             <li><a href="order.html">Basket</a></li>
             <li><a href="login.html">Login</a></li>
             <li><a href ="config.html">Config</a></li>
-            <li><div id="loggedInDetails" onload="checkLogin()">logon details</div></li>
+            <li><div id="loggedInDetails">logon details</div></li>
             <li><a href ="adminLogin.html"><mark>Admin Login</mark></a></li>
 
         </ul>
     </nav>
 </header>
 
-
+<div id="content">
+    <h1>Please log in to continue...</h1>
+    <hr />
+    <form id="loginForm">
+        <div class="loginDiv">
+            <label for="staffUser" class = "User">Admin Username: </label>
+            <input type="text" name="staffUser" id="staffUser">
+        </div>
+        <div class="loginDiv">
+            <label for="staffPass" class = "Pass">Admin Password: </label>
+            <input type="password" name="staffPass" id="staffPass">
+        </div>
+        <div class="loginDiv">
+            <input type="submit" value="Login" id="loginButton">
+        </div>
+    </form>
+</div>
 </body>
 </html>

@@ -1,7 +1,5 @@
 function pageLoad(){
-
     checkLogin();
-
     let configPizza = '<div style="text-align:center;">'
         + '<h1>ADMIN PAGE</h1>'
         + '<div style="font-style: italic;">'
@@ -63,46 +61,60 @@ function pageLoad(){
     //document.getElementById("saveButton").addEventListener("click", cancelEditPizza);
     //document.getElementById("cancelButton").addEventListener("click", cancelDeletePizza);
 
+    let configDrink = '<div style="text-align:center;">'
+        + '<div style="font-style: italic;">'
+        + '</div>'
+        + '</div>' +
+        `<table>` +
+        '<tr>' +
+        '<th>ID</th>' +
+        '<th>Name</th>' +
+        '<th>Image</th>' +
+        //'<th>Quantity</th>' +
+        '<th>Price</th>' +
+        '<th class="last">Options</th>' +
+        '</tr>';
 
-}
+    fetch('/Drink/list', {method: 'get'}
+    ).then(response => response.json()
+    ).then(pizzas => {
 
+        for (let drink of drinks) {
 
-function checkLogin() {
+            configDrink += `<tr>` +
+                `<td>${drink.drinkID}</td>` +
+                `<td>${drink.drinkName}</td>` +
+                `<td><img src='/client/img/${drink.drinkImage}' alt='Picture of ${drink.drinkName}' height='100px'></td>` +
+                //`<td>${pizza.pizzaQuantity}</td>` +
+                `<td>${drink.drinkPrice}</td>` +
 
-    let username = Cookies.get("customerUser");
+                `<td class="last">` +
+                `<button class='editButton' data-id='${drink.drinkID}'>Edit</button>` +
+                `<button class='deleteButton' data-id='${drink.drinkID}'>Delete</button>` +
+                `</td>` +
+                `</tr>`;
 
-    let logInHTML = '';
+        }
+        configDrink += '</table>';
 
-    if (username === undefined) {
+        document.getElementById("listDiv").innerHTML = configDrink;
 
         let editButtons = document.getElementsByClassName("editButton");
         for (let button of editButtons) {
-            button.style.visibility = "hidden";
+            //button.addEventListener("click", editPizza);
         }
 
         let deleteButtons = document.getElementsByClassName("deleteButton");
         for (let button of deleteButtons) {
-            button.style.visibility = "hidden";
+            //button.addEventListener("click", deletePizza);
         }
 
-        logInHTML = "Not logged in. <a href='/client/login.html'>Log in</a>";
 
-    } else {
+    });
 
-        let editButtons = document.getElementsByClassName("editButton");
-        for (let button of editButtons) {
-            button.style.visibility = "visible";
-        }
-
-        let deleteButtons = document.getElementsByClassName("deleteButton");
-        for (let button of deleteButtons) {
-            button.style.visibility = "visible";
-        }
-
-        logInHTML = "Logged in as " + username + ". <a href='/client/login.html?logout'>Log out</a>";
-
-    }
-
-    document.getElementById("loggedInDetails").innerHTML = logInHTML;
 
 }
+
+
+
+

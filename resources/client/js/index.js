@@ -1,7 +1,7 @@
 
 
 function pageLoad() {
-
+    checkLogin();
     let now = new Date();
 
     let myHTML = '<div style="text-align:center;">'
@@ -26,7 +26,7 @@ function pageLoad() {
         myIndex++;
         if (myIndex > x.length) {myIndex = 1}
         x[myIndex-1].style.display = "block";
-        setTimeout(carousel, 3000); // Change image every 2 seconds
+        setTimeout(carousel, 3000);
     }
 
     let pizzaHTML = '<div style="text-align:center;">'
@@ -86,8 +86,6 @@ function pageLoad() {
             //button.addEventListener("click", deletePizza);
         }
 
-        checkLogin();
-
     });
 
     //document.getElementById("saveButton").addEventListener("click", cancelEditPizza);
@@ -96,45 +94,8 @@ function pageLoad() {
 
         }
 
-function checkLogin() {
 
-    let username = Cookies.get("customerUser");
 
-    let logInHTML = '';
-
-    if (username === undefined) {
-
-        let editButtons = document.getElementsByClassName("editButton");
-        for (let button of editButtons) {
-            button.style.visibility = "hidden";
-        }
-
-        let deleteButtons = document.getElementsByClassName("deleteButton");
-        for (let button of deleteButtons) {
-            button.style.visibility = "hidden";
-        }
-
-        logInHTML = "Not logged in. <a href='/client/login.html'>Log in</a>";
-
-    } else {
-
-        let editButtons = document.getElementsByClassName("editButton");
-        for (let button of editButtons) {
-            button.style.visibility = "visible";
-        }
-
-        let deleteButtons = document.getElementsByClassName("deleteButton");
-        for (let button of deleteButtons) {
-            button.style.visibility = "visible";
-        }
-
-        logInHTML = "Logged in as " + username + ". <a href='/client/login.html?logout'>Log out</a>";
-
-    }
-
-    document.getElementById("loggedInDetails").innerHTML = logInHTML;
-
-}
 
 
 
