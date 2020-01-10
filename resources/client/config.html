@@ -29,7 +29,46 @@
 <h1>ADMIN PAGE</h1>
 <div id="content">
 
+    <div id="pageHeader">
+        <div class="floatRight"><button id="newButton" class="editButton">Add New Pizza</button></div>
+    </div>
+
     <div id="listDiv"></div>
+
+    <div id="editDiv">
+        <h2 id="editHeading"></h2>
+        <form id="pizzaForm">
+            <input type="hidden" name="pizzaID" id="pizzaID">
+            <div>
+                <label for="pizzaName" class="label">Name: </label>
+                <input type="text" name="pizzaName" id="pizzaName">
+            </div>
+            <div>
+                <label for="pizzaImage" class="label">Image: </label>
+                <input type="text" name="pizzaImage" id="pizzaImage">
+            </div>
+            <div>
+                <label for="pizzaSize" class="label">Size: </label>
+                <input type="text" name="pizzaSize" id="pizzaSize">
+            </div>
+            <div>
+                <label for="pizzaBase" class="label">Base: </label>
+                <input type="text" name="pizzaBase" id="pizzaBase">
+            </div>
+            <div>
+                <label for="pizzaCrust" class="label">Crust: </label>
+                <input type="text" name="pizzaCrust" id="pizzaCrust">
+            </div>
+            <div>
+                <label for="pizzaPrice" class="label">Price: </label>
+                <input type="text" name="pizzaPrice" id="pizzaPrice">
+            </div>
+            <div>
+                <input type="submit" value="Save" id="saveButton">
+                <input type="submit" value="Cancel" id="cancelButton">
+            </div>
+        </form>
+    </div>
 
 </div>
 

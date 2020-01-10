@@ -116,22 +116,23 @@ public class pizzaController {
                                @FormDataParam("pizzaBase")String pizzaBase,
                                @FormDataParam("pizzaCrust")String pizzaCrust,
                                @FormDataParam("pizzaPrice")Integer pizzaPrice,
+                               @FormDataParam("pizzaImage")String pizzaImage,
                                @FormDataParam("pizzaSet")boolean pizzaSet) {
         //this allows you to update a pizza in the database
         try{
-            if(pizzaName == null || pizzaSize == null || pizzaBase == null || pizzaCrust == null ||pizzaPrice == null){
+            if(pizzaID == null || pizzaName == null || pizzaSize == null || pizzaBase == null || pizzaCrust == null ||pizzaPrice == null || pizzaImage == null){
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
             System.out.println("Pizza/update pizzaID = "+ pizzaID);
 
-            PreparedStatement ps = Main.db.prepareStatement("UPDATE Pizzas SET pizzaName = ?, pizzaSize = ?, pizzaBase = ?, pizzaCrust = ?, pizzaPrice = ?, pizzaSet = ? WHERE pizzaID = ?");
-            ps.setInt(1, pizzaID);
-            ps.setString(2, pizzaName);
-            ps.setObject(3, pizzaSize, java.sql.Types.CHAR);
-            ps.setString(4, pizzaBase);
-            ps.setString(5, pizzaCrust);
-            ps.setInt(6, pizzaPrice);
-            ps.setBoolean(7, pizzaSet);
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE Pizzas SET pizzaName = ?, pizzaSize = ?, pizzaBase = ?, pizzaCrust = ?, pizzaPrice = ?, pizzaSet = true, pizzaImage = ? WHERE pizzaID = ?");
+            ps.setString(1, pizzaName);
+            ps.setObject(2, pizzaSize, java.sql.Types.CHAR);
+            ps.setString(3, pizzaBase);
+            ps.setString(4, pizzaCrust);
+            ps.setInt(5, pizzaPrice);
+            ps.setString(6, pizzaImage);
+            ps.setInt(7, pizzaID);
             ps.executeUpdate();
             return "{\"status\": \"OK\"}";
         }catch(Exception e){
@@ -242,4 +243,37 @@ public class pizzaController {
             return "{\"error\": \"Unable to create new pizza, please see server console for more info.\"}";
         }
     }
+
+    @GET
+    @Path("get/{pizzaID}")
+    @Produces({"application/json"})
+    public String getFruit(@PathParam("pizzaID") Integer pizzaID) {
+        System.out.println("pizza/get/" + pizzaID);
+        JSONObject item = new JSONObject();
+
+        try {
+            if (pizzaID == null) {
+                throw new Exception("Pizza's 'id' is missing in the HTTP request's URL.");
+            } else {
+                PreparedStatement ps = Main.db.prepareStatement("SELECT pizzaID, pizzaName, pizzaSize, pizzaBase, pizzaCrust, pizzaPrice, pizzaImage FROM Pizzas WHERE pizzaID = ?");
+                ps.setInt(1, pizzaID);
+                ResultSet results = ps.executeQuery();
+                if (results.next()) {
+                    item.put("pizzaID", results.getInt(1));
+                    item.put("pizzaName", results.getString(2));
+                    item.put("pizzaSize", results.getObject(3));
+                    item.put("pizzaBase", results.getObject(4));
+                    item.put("pizzaCrust", results.getObject(5));
+                    item.put("pizzaPrice", results.getInt(6));
+                    item.put("pizzaImage", results.getString(7));
+                }
+
+                return item.toString();
+            }
+        } catch (Exception var5) {
+            System.out.println("Database error: " + var5.getMessage());
+            return "{\"error\": \"Unable to get pizza, please see server console for more info.\"}";
+        }
+    }
 }
+
