@@ -12,15 +12,23 @@ function checkLogin() {
 
     if (admin !== undefined) {
 
+       //document.getElementsByClassName("registered").style.visibility = "hidden";
+
         logInHTML = "Logged in as ADMIN (" + admin + "). <a href='/client/adminLogin.html?adminLogout'>Log out</a>";
         admin = true;
         loggedIn = true;
 
+
+
     } else if (username !== undefined) {
+
+        //document.getElementsByClassName("registered").style.visibility = "hidden";
 
         logInHTML = "Logged in as " + username + ". <a href='/client/login.html?logout'>Log out</a>";
         admin = false;
         loggedIn = true;
+
+
 
     } else {
 

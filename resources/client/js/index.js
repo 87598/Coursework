@@ -2,6 +2,16 @@
 
 function pageLoad() {
     checkLogin();
+
+    let admin = Cookies.get("staffUser");
+    if(admin != null){
+        document.getElementById("config").style.visibility = "visible";
+    }
+    else{
+        document.getElementById("config").style.visibility = "hidden";
+    }
+
+
     let now = new Date();
 
     let myHTML = '<div style="text-align:center;">'
@@ -46,7 +56,7 @@ function pageLoad() {
         '<th>Crust</th>' +
         //'<th>Quantity</th>' +
         '<th>Price</th>' +
-        '<th class="last">Options</th>' +
+        //'<th class="last">Options</th>' +
         '</tr>';
 
     fetch('/Pizza/list', {method: 'get'}
@@ -66,8 +76,8 @@ function pageLoad() {
                 `<td>${pizza.pizzaPrice}</td>` +
 
                 `<td class="last">` +
-                `<button class='editButton' data-id='${pizza.pizzaID}'>Edit</button>` +
-                `<button class='deleteButton' data-id='${pizza.pizzaID}'>Delete</button>` +
+                //`<button class='editButton' data-id='${pizza.pizzaID}'>Edit</button>` +
+                //`<button class='deleteButton' data-id='${pizza.pizzaID}'>Delete</button>` +
                 `</td>` +
                 `</tr>`;
 

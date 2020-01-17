@@ -70,6 +70,7 @@ public class pizzaController {
                                @FormDataParam("pizzaName")String pizzaBase,
                                @FormDataParam("pizzaBase")String pizzaCrust,
                                @FormDataParam("pizzaPrice")Integer pizzaPrice,
+                               @FormDataParam("pizzaImage")String pizzaImage,
                                @FormDataParam("pizzaSet")boolean pizzaSet) {
         //this block of code allows you to insert a pizza into the database
         try {
@@ -81,13 +82,14 @@ public class pizzaController {
                 throw new Exception(" One or more form data parameters are missing in the HTTP request.");
             }
             System.out.println("Pizza/create pizzaName = " + pizzaName);
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Pizzas (pizzaName, pizzaSize, pizzaBase, pizzaCrust, pizzaPrice, pizzaSet) VALUES ( ?, ?, ?, ?, ?)");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Pizzas (pizzaName, pizzaSize, pizzaBase, pizzaCrust, pizzaPrice, pizzaImage, pizzaSet ) VALUES ( ?, ?, ?, ?, ?, ?, true)");
 
             ps.setString(1, pizzaName);
             ps.setObject(2, pizzaSize, java.sql.Types.CHAR);
             ps.setString(3, pizzaBase);
             ps.setString(4, pizzaCrust);
             ps.setInt(5, pizzaPrice);
+            ps.setString(6, pizzaImage);
 
 
             ps.executeUpdate();
